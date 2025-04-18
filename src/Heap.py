@@ -39,6 +39,15 @@ class Node():
         self.__left = None
         self.__right = None
         
+    def __lt__(self, other):
+        return self.val < other.val
+    
+    def __repr__(self):
+        return str(self.val)
+    
+    def __str__(self):
+        return str(self.val)
+        
     def getLeft(self):
         if not self.__left:
             self.__left = Node(generationStrategy(self.val, 0))
@@ -111,8 +120,8 @@ def drawHeap(head, depth):
     plt.show()
 
     
-
-nheap = Heap()
-# printHeapBFS(nheap.head, 4)
-drawHeap(nheap.head, 5)        
+if __name__ == "__main__":
+    nheap = Heap()
+    # printHeapBFS(nheap.head, 4)
+    drawHeap(nheap.head, 5)        
         
