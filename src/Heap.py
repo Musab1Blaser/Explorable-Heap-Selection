@@ -1,4 +1,4 @@
-from node_value_generation import *
+from NodeValGenerator import *
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -32,8 +32,10 @@ color_options = [
 
 
 class Node():
-    def __init__(self, val):
-        self.val = val  
+    def __init__(self, val, restrictions=None, terminal=False):
+        self.val = val
+        self.restrictions = restrictions # for knapsack
+        self.terminal = terminal
         
         # Children will be initialised on access
         self.__left = None
@@ -50,20 +52,20 @@ class Node():
         
     def getLeft(self):
         if not self.__left:
-            self.__left = Node(generationStrategy(self.val, 0))
+            self.__left = Node(*generationStrategy(self, 0))
         return self.__left
     
     def getRight(self):
         if not self.__right:
-            self.__right = Node(generationStrategy(self.val, 1))
+            self.__right = Node(*generationStrategy(self, 1))
         return self.__right
 
 class Heap():
-    def __init__(self):
-        self.head = Node(generationStrategy(0, 0))
-        
-generationStrategy = randGen
-     
+    def __init__(self, strategy):
+        global generationStrategy
+        generationStrategy = strategy
+        self.head = Node(*generationStrategy(None, 0))
+             
 # Tests:
 # def printHeapBFS(head, depth):
 #     frontier = [head]
@@ -121,7 +123,7 @@ def drawHeap(head, depth):
 
     
 if __name__ == "__main__":
-    nheap = Heap()
+    nheap = Heap(firstN)
     # printHeapBFS(nheap.head, 4)
     drawHeap(nheap.head, 5)        
         

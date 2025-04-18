@@ -1,5 +1,6 @@
 import Heap
 import heapq
+from NodeValGenerator import *
 
 def best_first(head, n):
     lst = [] # first n elements
@@ -11,12 +12,14 @@ def best_first(head, n):
         heapq.heappush(pq, cur.getLeft())
         heapq.heappush(pq, cur.getRight())
         
-    print(lst)
+    # print(lst)
+    return lst[-1]
     
 if __name__ == "__main__":
-    nheap = Heap.Heap()
+    nheap = Heap.Heap(randGen)
     # printHeapBFS(nheap.head, 4)
-    best_first(nheap.head, 8)        
+    ans = best_first(nheap.head, 8)
+    print(ans)        
     Heap.drawHeap(nheap.head, 5)
 
 
