@@ -10,19 +10,22 @@ Heap:
 Node:
     Attributes:
         - val (Type: Float)
+        - restrictions (Type: List of {0, 1}) - only used for Knapsack
+        - terminal (Type: Boolean) = only used for Knapsack
+        
         - color (Type: String) - only used for visualisation
         - __left (Type: Node) [PRIVATE]
         - __right (Type: Node) [PRIVATE]
         
     Methods:
         getLeft(): Returns left child (Creates it if it doesn't exist)
-        getLeft(): Returns right child (Creates it if it doesn't exist)
+        getRight(): Returns right child (Creates it if it doesn't exist)
         
 generationStrategy:
     Specifies how nodes are created
     - firstN: Heap is effectively a flat array of [1,2,3, ..., n]
     - randGen: Heap contains random positive floats rounded to 1 decimal place
-    - LinProg: Heap contains results of linear programming for branch and bound (will refine definition when implemented)
+    - knapsack: Heap contains value as per Linear Programming with restrictions
 """
 
 color_options = [
@@ -34,7 +37,9 @@ color_options = [
 class Node():
     def __init__(self, val, restrictions=None, terminal=False):
         self.val = val
-        self.restrictions = restrictions # for knapsack
+        
+        # for knapsack
+        self.restrictions = restrictions
         self.terminal = terminal
         
         # Children will be initialised on access

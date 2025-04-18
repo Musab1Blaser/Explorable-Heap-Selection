@@ -1,28 +1,33 @@
 import random
 from LinProbKnap import linprobknap
 
-def firstN(node, off):
+def firstN(node, off): # Heap is effectively a flat array of [1,2,3, ..., n]
     if node is None:
-        return 1.0
+        return 1.0, None
     else:
-        return 2*node + off, None
+        return 2*node.val + off, None
 
-def randGen(node, off):
+def randGen(node, off): # Heap contains random positive floats rounded to 1 decimal place
     if node is None:
         val = 0
     else:
         val = node.val
     return round(val + 0.1 + random.random()*10, 1), None
 
-def knapsack(node, off):
+def knapsack(node, off): # Heap contains value as per Linear Programming with restrictions
+    data_option = "Medium" # "Small" or "Medium"
+    lims = {"Small" : 5, "Medium" : 10}
+    
     if node is None:
-        restrictions = []
+        restrictions = [] # root node has no restrictions
     else:
         restrictions = node.restrictions[:]
-        if len(restrictions) < 10:
+        if len(restrictions) < lims[data_option]: # add restrictions to children
             restrictions += [off]
-    
-    val, term = linprobknap(restrictions)
+        else:
+            return 1, restrictions, False # so that I no longer consider this subtree
+        
+    val, term = linprobknap(restrictions, problem=data_option)
     return val, restrictions, term
      
      
