@@ -34,7 +34,8 @@ def goodValues(T: Heap, T_r: Node, alt_L: float, n:int):
 	while U_ind > L_ind :
 		# sample randomly
 		index = random.randint(L_ind, U_ind - L_ind)
-		if dfsHelper(T_r, s[index], n) < n:
+		dfsVal = dfsHelper(T_r, s[index], n)
+		if  dfsVal!= - 1 and dfsVal != -1 :
 			L = s[index]
 			L_ind = index
 		else: 
