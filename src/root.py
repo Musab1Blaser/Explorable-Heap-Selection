@@ -12,7 +12,7 @@ def checkSubtree(r: Heap.Node, L_0: float, L: float, U: float):
     else: # at least equal to U means subtree wont be in range so we can stop here
         return False
 
-def rootPicker(root, L_0, L, U):
+def rootPicker(root : Heap.Node, L_0, L, U):
 	global r, count
     
     #go deep if value is smaller than L_0
@@ -23,7 +23,11 @@ def rootPicker(root, L_0, L, U):
 	else: # if > L_0 for the first time -> mark node if feasible (has some child in range)
 		if checkSubtree(root, L_0, L, U):
 			count += 1
+			# root.changeColor("lightblue")
 			if random.random() < 1/count:
+				if r:
+					r.changeColor("lightblue")
+				root.changeColor("cyan")
 				r = root
 
 def roots(root: Heap.Node, L_0: float, L: float, U: float):

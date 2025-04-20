@@ -9,6 +9,8 @@ from BestFirst import best_first
 
 # exact implementation of extend
 def extend(T: Heap.Heap , TreeHead: Heap.Node, n, k , L_0):
+	Heap.color_idx += 1
+	# print("Diving in")
 	L = L_0
 	U = math.inf
 	while k < n:
@@ -25,7 +27,9 @@ def extend(T: Heap.Heap , TreeHead: Heap.Node, n, k , L_0):
 		L_hat, U_hat = goodValues(T, TreeHead, r, L_alt, n)
 		L = max(L, L_hat)
 		U = min(U, U_hat)
-		k = dfs(TreeHead, L, n)
+		k = dfs(TreeHead, L, n, recolor=True)
+	# print("Jumping out")
+	Heap.color_idx -= 1
 	return L 
 
 
@@ -45,10 +49,13 @@ def selectN(T: Heap.Heap, n: int):
 
 
 if __name__ == "__main__":
-    nheap = Heap.Heap(randGen)
-    n = 100
+    visualise = False
+    nheap = Heap.Heap(randGen, visualise=visualise)
+    n = 10
     # printHeapBFS(nheap.head, 4)
     ans = selectN(nheap, n)
+    if visualise:
+        nheap.save_animation()
     print("Our answer:", ans)
     print("Expected answer:", best_first(nheap, n))
-    # Heap.drawHeap(nheap.head, 5)
+    Heap.drawHeap(nheap.head, 5)
