@@ -39,7 +39,7 @@ To test the correctness of the proposed algorithm, we first tested the algorithm
 \end{figure}
 
 \section{Complexity \& Runtime Analysis}
-The theoretical complexity of the algorithm stated in the paper is $O(n\cdot log(n)^3$. By running it, we confirm it's upper-bound. The results, normalized by division in Fig. \ref{fig:normailsed-run-time}, suggest that the results we have are a bit more optimized, and one of the reasons for that might be that we do not know the worst case and we have not tested the algorithm on the worst case, hence the discrepancy.
+The theoretical complexity of the algorithm stated in the paper is $O(n\cdot \log^3(n))$. By running it, we confirm it's upper-bound. The results, normalized by division in Fig. \ref{fig:normailsed-run-time}, suggest that the results we have are a bit more optimized, and one of the reasons for that might be that we do not know the worst case and we have not tested the algorithm on the worst case, hence the discrepancy.
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{images/normalised_performance_comparison.png}
@@ -47,7 +47,7 @@ The theoretical complexity of the algorithm stated in the paper is $O(n\cdot log
     \label{fig:normailsed-run-time}
 \end{figure}
 \section{Baseline or Comparative Evaluation}
-We tested and compared the randomized heap search alogrithm against the baseline of best-first, and as shown in Fig. \ref{fig:comparison}, the time taken by the former is slightly higher than the latter. This is as expected since, the randomized algorithm takes up a space of $O(logn)$ in contrast to best-first space complexity of $O(n)$. The difference is just in logarithmic factors, as seen the figure. The results produced by both matched in all instances.
+We tested and compared the randomized heap search alogrithm against the baseline of best-first, and as shown in Fig. \ref{fig:comparison}, the time taken by the former is slightly higher than the latter. This is as expected since, the randomized algorithm takes up a space of $O(\log n)$ in contrast to best-first space complexity of $O(n)$. The difference is just in logarithmic factors, as seen the figure. The results produced by both matched in all instances.
 
 \begin{figure}
     \centering
