@@ -42,14 +42,55 @@ Other uses:
 
 ## Implementation Details
 
+1. Heap Structure: Implemented as an infinite heap where nodes are generated on access, enforcing parent-first access. Three heap types are supported:
+   - firstN: Nodes are integers 1,2,3,…
+   - randGen: Nodes are randomly generated while maintaining the heap property
+   - knapsack: Nodes represent solutions to knapsack linear programs under constraints
+2. Algorithm: Implemented as per reference paper along with core subroutines: Select, Extend, Roots, DFS, and GoodValues.
+3. Baseline: BestFirst algorithm used as baseline. Used for verification and runtime comparison. Note that it saves on time by using more memory.
+4. Application: The algorithm is used to solve 0-1 Knapsack problem expressed as an integer linear program. Algorithm used to carry out Branch and Bound optimization.
+5. Visualization: A visual animation of the algorithm execution is developed: showing node highlights based on the caller of Extend, selected roots, and hiding of "bad" values.
+
 ## Code Structure
+
+```
+src/
+├── baseline/                       # Contains baseline (best first) algo
+|    └── BestFirst.py               # Expands from smallest nodes
+├── heap/                           # Deals with infinite heap and visualisation
+|    ├── Heap.py                    # Heap and Node structure
+|    └── NodeValGenerator.py        # Gets node value based on strategy
+├── knapsack/                       # Logic for using linear programming in knapsack
+|    ├── knapsack_sol.py            # Baseline solver for verification
+|    └── LinProbKnap.py             # Uses Linear Programming to solve subproblem
+├── subroutines/                    # Contains subroutines of algorithm from paper
+|    ├── dfs.py                     # Checks if a values is good or bad
+|    ├── goodValues.py              # Random binary search to limit range of (L, U)
+|    └── root.py                    # Identifies potential roots to expand from
+├── BranchNBound.py                 # Uses branch and bound and algo to solve 0-1 Knapsack
+├── CorrectnessAnalysis.py          # Runs many random heap tests to verify correctness
+├── RandomisedHeapExploration.py    # The algorithm from the paper
+└── RuntimeAnalysis.py              # Tests runtime against baseline, and checks complexity
+```
 
 ## Time Analysis Plots
 
-## Memory Usage Plots
+We take the ratio of the randomised heap exploration algorithm's run time for different values of n on a randomly generated heap with an expected time complexity. The idea is to find the expected time complexity that causes the ratio to approach a constant value. This would be a good estimate of time complexity for the specific input type. We note that the complexity seems closer to $O(n \log^2 (n))$.
+<br> <br>
+<img src="reports/CP3/images/normalised_performance_comparison.png" alt="RandHeapExp complexity" width="800">
+<br>
+
+We compare the randomised heap exploration algorithm to the baseline algorithm. We note that the former achieves somewhat comparable performance. Note that we expect the former to be slower as it opts for a higher time complexity $O(n \log^2 (n))$ to save on space complexity $O(\log(n))$ as opposed to best first algorithm which has a time complexity of $O(n \log n)$ and a space complexity of $O(n)$.
+<br> <br>
+<img src="reports/CP3/images/algo-comparison.jpeg" alt="RandHeapExp vs Best First" width="800"> <br>
 
 ## Sample Run
 
-# Paper Link
+Tested on a randomly generated heap for n = 8. We can verify the value (8.5) through the diagram. Note that there are repeat values in the graph that our algorithm stays robust to.
+<br> <br>
+<img src="reports/CP3/images/algo-visualisation.jpeg" alt="Visualisation of Run" width="600"> <br>
+<img src="reports/CP3/images/algo-result.jpeg" alt="Result of Run" width="600">
+
+# Original Paper Link
 
 [A Nearly Optimal Randomized Algorithm for Explorable Heap Selection](https://doi.org/10.1007/978-3-031-32726-1_3)
