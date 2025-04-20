@@ -1,8 +1,0 @@
-{
-	"python.analysis.extraPaths": [
-		"./src/subroutines",
-		"./src",
-		"./src/baseline",
-		"./src/heap"
-	]
-}
