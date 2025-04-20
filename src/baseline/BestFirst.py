@@ -1,6 +1,6 @@
-import Heap
+import heap.Heap as Heap
 import heapq
-from NodeValGenerator import *
+from heap.NodeValGenerator import *
 
 def best_first(Heap : Heap.Heap, n): # ignores the travel constraint - finds nth largest node
     head = Heap.head
@@ -22,7 +22,6 @@ def best_first(Heap : Heap.Heap, n): # ignores the travel constraint - finds nth
     
 if __name__ == "__main__":
     nheap = Heap.Heap(firstN)
-    # printHeapBFS(nheap.head, 4)
     ans = best_first(nheap, 8)
     print(ans)
     Heap.drawHeap(nheap.head, 5)

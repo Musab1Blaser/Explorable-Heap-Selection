@@ -1,8 +1,8 @@
 import random
-import Heap
+import heap.Heap as Heap
 import math
 
-from dfs import dfs
+from subroutines.dfs import dfs
 
 rand_node = None
 count = 0
@@ -15,7 +15,7 @@ def SSampler(r, L, U):
         SSampler(r.getRight(), L, U)
     if r.val > L and r.val < U:
         count += 1
-        if random.random() < 1 / count:
+        if random.random() < 1 / count: # swap given a probability -> allows for chance of candidate = 1/num_candidates
             rand_node = r
 
 def goodValues(T: Heap.Heap, TreeHead: Heap.Node, T_r: Heap.Node, alt_L: float, n:int):

@@ -1,4 +1,4 @@
-from NodeValGenerator import *
+from heap.NodeValGenerator import *
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -7,29 +7,47 @@ import copy
 """
 Heap:
     Attributes:
-        - head (Type: Node)
+        - head (Type: Node) -> head of heap
         
+        for knapsack:
+        - terminal_node (Type: Node) -> completely restricted/terminal node -> integer solution
+        - terminal_val (Type: int) -> value of integer solution
+        
+        for animation:
+        - visualise_flag (Type: Bool) -> whether or not to create animation
+        
+    Methods:
+        - save_animation(): compile graph G history to create animation
+    
 Node:
     Attributes:
         - val (Type: Float)
-        - restrictions (Type: List of {0, 1}) - only used for Knapsack
-        - terminal (Type: Boolean) = only used for Knapsack
-        
-        - color (Type: String) - only used for visualisation
         - __left (Type: Node) [PRIVATE]
         - __right (Type: Node) [PRIVATE]
         
+        for knapsack:
+        - restrictions (Type: List of {0, 1}) - which items have to be taken/not taken
+        - terminal (Type: Boolean) - is an integer solution
+        
+        for animation:
+        - id (Type: int) - used to identify node in Networkx Graph 
+        - color (Type: String) - to control color of node
+        
     Methods:
-        getLeft(): Returns left child (Creates it if it doesn't exist)
-        getRight(): Returns right child (Creates it if it doesn't exist)
+        - getLeft(): Returns left child (Creates it if it doesn't exist)
+        - getRight(): Returns right child (Creates it if it doesn't exist)
+        
+        for animation:
+        - changeColor(): Update color of node for animation
         
 generationStrategy:
     Specifies how nodes are created
     - firstN: Heap is effectively a flat array of [1,2,3, ..., n]
     - randGen: Heap contains random positive floats rounded to 1 decimal place
-    - knapsack: Heap contains value as per Linear Programming with restrictions
+    - knapsack_selector("Small" | "Medium"): Heap contains value as per Linear Programming with restrictions
 """
 
+# For animation:
 color_options = [
     "pink", "violet", "lime",
     "red", "orange", "yellow", "green"
@@ -53,6 +71,7 @@ def capture_frame():
     
     animation_frames.append((frame_G, frame_pos))
 
+# ------------------------------------------------------------------- #
 class Node():
     def __init__(self, val, restrictions=None, terminal=False):
         global id
@@ -154,23 +173,12 @@ class Heap():
                 interval=500,
                 blit=False  # turn off blitting to avoid redraw issues with text
             )
-            ani.save("heap_animation.mp4", writer='ffmpeg')
+            ani.save("../heap_animation.mp4", writer='ffmpeg')
             plt.close(fig)
 
-# Tests:
-# def printHeapBFS(head, depth):
-#     frontier = [head]
-#     while depth > 0:
-#         newFrontier = []
-#         for node in frontier:
-#             print(node.val, end=" ")
-#             newFrontier.append(node.getLeft())
-#             newFrontier.append(node.getRight())
-#         print()
-#         frontier = newFrontier
-#         depth -= 1
+# ------------------------------------------------------------------- #
 
-def drawHeap(head, depth):
+def drawHeap(head, depth): # draw first few levels of heap
     G = nx.DiGraph()
     pos = {}
     id = 0

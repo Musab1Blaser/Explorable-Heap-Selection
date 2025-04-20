@@ -1,4 +1,4 @@
-import Heap
+import heap.Heap as Heap
 
 lCount = 0
 

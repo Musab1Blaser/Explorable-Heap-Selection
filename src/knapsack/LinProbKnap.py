@@ -1,3 +1,5 @@
+# Derived from: https://slama.dev/youtube/linear-programming-in-python/
+
 from pulp import *
 
 data = { # we make values negative so that the problem becomes a minimization problem
@@ -20,7 +22,7 @@ data = { # we make values negative so that the problem becomes a minimization pr
     ]
 }
 
-def linprobknap(restrictions, problem): 
+def linprobknap(restrictions, problem): # Solves linear programming problem (not Integer Linear Programming) with restrictions
     model = LpProblem(sense=LpMinimize) # since storing value as negative, want minimum
     weights, prices, capacity  = data[problem]
     n = len(weights)
@@ -33,12 +35,13 @@ def linprobknap(restrictions, problem):
     model += lpDot(prices, variables)
     
     model.solve(PULP_CBC_CMD(msg=False))
-    val = model.objective.value()
-    terminal = True
+    
+    val = model.objective.value() # value of solution
+    terminal = True # is node an integer solution
     for variable in variables:
         if variable.value() // 1 != variable.value():
             terminal = False
             
-    if val > 0 or sum(weights[i]*variables[i].value() for i in range(n)) > capacity:
+    if val > 0 or sum(weights[i]*variables[i].value() for i in range(n)) > capacity: # correct invalid solutions -> potentially occur due to numerical instability
         return 1, False
     return val, terminal

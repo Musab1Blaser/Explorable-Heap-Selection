@@ -1,4 +1,4 @@
-import Heap
+import heap.Heap as Heap
 import random
 
 r = None
@@ -23,7 +23,6 @@ def rootPicker(root : Heap.Node, L_0, L, U):
 	else: # if > L_0 for the first time -> mark node if feasible (has some child in range)
 		if checkSubtree(root, L_0, L, U):
 			count += 1
-			# root.changeColor("lightblue")
 			if random.random() < 1/count:
 				if r:
 					r.changeColor("lightblue")

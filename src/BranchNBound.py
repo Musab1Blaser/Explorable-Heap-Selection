@@ -1,7 +1,8 @@
-import Heap
-from NodeValGenerator import knapsack, firstN
-from BestFirst import best_first
-from main import selectN
+import heap.Heap as Heap
+from heap.NodeValGenerator import knapsack_selector
+from baseline.BestFirst import best_first
+from RandomisedHeapExploration import selectN
+from knapsack.knapsack_sol import knap_solve
 
 def find_best(head, lim): # explore up till the limit to find the highest value terminal node
     stack = [head]
@@ -28,16 +29,20 @@ def find_best(head, lim): # explore up till the limit to find the highest value 
             
         
 if __name__ == "__main__":
+    data_option = "Medium" # "Small" or "Medium"
+    nheap = Heap.Heap(knapsack_selector(data_option))
+    
     lim = 1 # we double this until we reach a terminal node
-    nheap = Heap.Heap(knapsack)
     while True:
-        # node = best_first(nheap, lim)
         _ = selectN(nheap, lim)
-        # print(node, node.terminal)
-        # print(node.restrictions)
         if nheap.terminal_node:
             ans, rest = find_best(nheap.head, nheap.terminal_val)
-            print(-ans) # answer is negative since we were using a minheap to solve a maximisation problem
-            print(rest)
+            print("Branch and Bound via Explorable Heap results for knapsack:")
+            print("Value:", -ans) # answer is negative since we were using a minheap to solve a maximisation problem
+            print("Select:", rest)
+            print()
             break
         lim *= 2
+        
+    print("Expected result by baseline ILP solver:")
+    knap_solve(data_option)

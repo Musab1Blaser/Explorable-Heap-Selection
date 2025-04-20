@@ -1,11 +1,11 @@
-import Heap
+import heap.Heap as Heap
 import math
 
-from dfs import dfs
-from goodValues import goodValues
-from root import roots 
-from NodeValGenerator import *
-from BestFirst import best_first
+from subroutines.dfs import dfs
+from subroutines.goodValues import goodValues
+from subroutines.root import roots 
+from heap.NodeValGenerator import *
+from baseline.BestFirst import best_first
 
 # exact implementation of extend
 def extend(T: Heap.Heap , TreeHead: Heap.Node, n, k , L_0):
@@ -49,13 +49,18 @@ def selectN(T: Heap.Heap, n: int):
 
 
 if __name__ == "__main__":
-    visualise = False
-    nheap = Heap.Heap(randGen, visualise=visualise)
-    n = 1000
-    # printHeapBFS(nheap.head, 4)
-    ans = selectN(nheap, n)
+    visualise = True # set True if you wish to generate the animation - will take more memory and time !! ONLY DO WITH SMALL VALUES OF N (e.g. < 10) !!
+    n = 8 # specify n -> which value of heap to find
+    print(f"Searching for the {n}-th smallest value")
+    
+    nheap = Heap.Heap(firstN, visualise=visualise) # first parameter is heap type: firstN, randGen
+    
+    ans = selectN(nheap, n) # run algorithm
     if visualise:
-        nheap.save_animation()
-    print("Our answer:", ans)
-    print("Expected answer:", best_first(nheap, n))
-    # Heap.drawHeap(nheap.head, 5)
+        nheap.save_animation() # generates visualisation
+    
+    print("Randomised Heap Exploration result:", ans)
+    print("Expected answer (by Best First):", best_first(nheap, n))
+    
+    if n <= 10: # displays small heaps for further analysis
+        Heap.drawHeap(nheap.head, 5)
