@@ -1,45 +1,38 @@
-from Heap import Node
 import Heap
+import random
 
 r = None
+count = 0
 
-def rootHelper(root: Node, L_0: float, L: float, U: float):
-	global r
+def checkSubtree(r: Heap.Node, L_0: float, L: float, U: float):
+    if r.val > L and r.val < U: # if in range, then we are done
+        return True
+    elif r.val < U: # if not in range but less than U, means also less than L_0 -> we must explore further
+        return checkSubtree(r.getLeft(), L_0, L, U) or checkSubtree(r.getRight(), L_0, L, U)
+    else: # at least equal to U means subtree wont be in range so we can stop here
+        return False
+
+def rootPicker(root, L_0, L, U):
+	global r, count
+    
+    #go deep if value is smaller than L_0
+	if root.val <= L_0: 
+		rootPicker(root.getLeft(), L_0, L, U) # will update r by itself
+		rootPicker(root.getRight(), L_0, L, U) # will update r by itself
+  
+	else: # if > L_0 for the first time -> mark node if feasible (has some child in range)
+		if checkSubtree(root, L_0, L, U):
+			count += 1
+			if random.random() < 1/count:
+				r = root
+
+def roots(root: Heap.Node, L_0: float, L: float, U: float):
 	"""
-	Roots function to find the element, r, in T for which the value is greater than L_0, and its subtree has an element >L and less than U.
+	Roots function to randomly sample an element, r, in T for which the value is greater than L_0, and its subtree has an element > L and < U.
 	"""
-	# returns -1 if no such element is found
-	if root is None:
-		return -1
-	#go deep if value is smaller than L_0
-	if root.val < L_0:
-		left = rootHelper(root.getLeft(), L_0, L, U)
-		if left != None:
-			return left
-		right = rootHelper(root.getRight(), L_0, L, U)
-		return right
-	else:
-		# if this is the first node which is greater than L_0 then save it and go deeper
-		if r == None:
-			r = rootHelper(r, L_0, L, U)
-			return r
-		# if the value exceeds U then the r is not to be returned
-		if root.val > U:
-			return None
-		# if the value is less than U and greater than R then r is to be returned
-		elif root.val > L:
-			return r
-		#go deeper otherwise into each of their subtrees.
-		left = rootHelper(root.getLeft, L_0, L, U)
-		#return if  the value required is found
-		if left != None:
-			return left
-		right = rootHelper(root.getRight, L_0, L, U)
-		#no subtrees left so just return whatever the value of this subtree is
-		return right
-	
 
-
-def root(T: Heap, L_0: float, L: float, U: float):
-	return rootHelper(T.head, L_0, L, U)
-	
+	global r, count
+	r = None
+	count = 0
+	rootPicker(root, L_0, L, U)
+	return r

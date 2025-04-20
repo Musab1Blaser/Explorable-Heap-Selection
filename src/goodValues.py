@@ -1,46 +1,46 @@
 import random
 import Heap
-from Heap import Node
 import math
-import bisect
 
-from dfs import dfsHelper
+from dfs import dfs
 
-
-
-def makeS(root: Node, alt_L: float, s: list):
-	curr = root
-	if curr.val > alt_L:
-		return 
-	bisect.insort_left(s, curr.val)
-	makeS(curr.getLeft, alt_L, s)
-	makeS(curr.getRight, alt_L, s)
-
-	
+rand_node = None
+count = 0
 
 
-def goodValues(T: Heap, T_r: Node, alt_L: float, n:int):
+def SSampler(r, L, U):
+    global rand_node, count
+    if r.val < U:
+        SSampler(r.getLeft(), L, U)
+        SSampler(r.getRight(), L, U)
+    if r.val > L and r.val < U:
+        count += 1
+        if random.random() < 1 / count:
+            rand_node = r
+
+def goodValues(TreeHead: Heap.Node, T_r: Heap.Node, alt_L: float, n:int):
+	global rand_node, count
 	L = -math.inf
-	U = math.inf
-	s = []
-	# get the set S we are to analyse
-	makeS(T_r, alt_L, s)
-	# start of the item init max
-	L_ind = 0
-	#end of the items init min
-	U_ind = len(s) - 1
-
+	if dfs(TreeHead, alt_L, n) != n + 1: # is good
+		L = alt_L
+	# otherwise it is bad and we can let U = alt_L
+	U = alt_L
+ 
 	# while cardinality of S' is greater than 0
-	while U_ind > L_ind :
+	while True:
 		# sample randomly
-		index = random.randint(L_ind, U_ind - L_ind)
-		dfsVal = dfsHelper(T_r, s[index], n)
-		if  dfsVal!= - 1 and dfsVal != -1 :
-			L = s[index]
-			L_ind = index
-		else: 
-			U = s[index]
-			U_ind = index
+		rand_node = None
+		count = 0
+		SSampler(T_r, L, U)
+		if rand_node is None:
+			break
+
+		dfsVal = dfs(TreeHead, rand_node.val, n)
+		if  dfsVal!= n+1: # is good
+			L = rand_node.val
+		else: # is bad
+			U = rand_node.val
+   
 	# final condition, if L = L' = U then make U inf
 	if L == alt_L and alt_L == U:
 		U = math.inf

@@ -66,13 +66,10 @@ class Node():
         return self.__right
 
 class Heap():
-    def __init__(self, strategy, head = None):
+    def __init__(self, strategy):
         global generationStrategy
         generationStrategy = strategy
-        if head != None:
-            self.head = head
-        else:
-            self.head = Node(*generationStrategy(None, 0))
+        self.head = Node(*generationStrategy(None, 0))
              
 # Tests:
 # def printHeapBFS(head, depth):

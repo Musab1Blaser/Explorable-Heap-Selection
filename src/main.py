@@ -1,35 +1,36 @@
 import Heap
 import math
 
-import dfs
-import goodValues
-from root import root 
-
+from dfs import dfs
+from goodValues import goodValues
+from root import roots 
+from NodeValGenerator import *
+from BestFirst import best_first
 
 # exact implementation of extend
-def extend(T: Heap, n, k , L_0):
+def extend(TreeHead: Heap.Node, n, k , L_0):
 	L = L_0
 	U = math.inf
 	while k < n:
-		r = root(T, L_0, L, U)
-		L_alt = max(L, r.val)
-		k_alt = dfs(T, L_alt, n)
-		c = dfs(Heap(r), L_alt, n)
+		r = roots(TreeHead, L_0, L, U)
+		L_alt = max(L, r.val) 
+		k_alt = dfs(TreeHead, L_alt, n)
+		c = dfs(r, L_alt, n)
 		c_alt = min(n-k_alt+c, 2*c)
 		while k_alt < n:
-			L_alt = extend(Heap(r), c_alt, c, L_alt)
-			k_alt = dfs(T, L_alt, n)
+			L_alt = extend(r, c_alt, c, L_alt)
+			k_alt = dfs(TreeHead, L_alt, n)
 			c = c_alt
 			c_alt = min(n-k_alt+c, 2*c)
-		L_hat, U_hat = goodValues(T, r, L_alt, n)
-		L = min(L, L_hat)
+		L_hat, U_hat = goodValues(TreeHead, r, L_alt, n)
+		L = max(L, L_hat)
 		U = min(U, U_hat)
-		k = dfs(T, L, n)
+		k = dfs(TreeHead, L, n)
 	return L 
 
 
 # exact implementation of selectN
-def selectN(n: int, T: Heap):
+def selectN(T: Heap.Heap, n: int):
 	k = 1
 	curr = T.head
 	L = curr.val	
@@ -38,9 +39,16 @@ def selectN(n: int, T: Heap):
 			alt_k = 2 * k
 		else: 
 			alt_k = n
-		L = extend(T, alt_k, k, L)
+		L = extend(curr, alt_k, k, L)
 		k = alt_k
 	return L
 
 
-
+if __name__ == "__main__":
+    nheap = Heap.Heap(randGen)
+    n = 10
+    # printHeapBFS(nheap.head, 4)
+    ans = selectN(nheap, n)
+    print("Our answer:", ans)
+    print("Expected answer:", best_first(nheap, n))
+    # Heap.drawHeap(nheap.head, 5)
