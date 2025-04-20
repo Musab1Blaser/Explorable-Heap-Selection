@@ -10,11 +10,15 @@ def best_first(Heap : Heap.Heap, n): # ignores the travel constraint - finds nth
     
     while len(lst) < n: # expand smallest active node
         cur = heapq.heappop(pq)
+        if cur.terminal and cur.val < Heap.terminal_val:
+            Heap.terminal_node = cur
+            Heap.terminal_val = cur.val
+
         lst.append(cur)
         heapq.heappush(pq, cur.getLeft())
         heapq.heappush(pq, cur.getRight())
         
-    return lst[-1]
+    return lst[-1].val
     
 if __name__ == "__main__":
     nheap = Heap.Heap(firstN)

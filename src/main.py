@@ -46,7 +46,7 @@ def selectN(T: Heap.Heap, n: int):
 
 if __name__ == "__main__":
     nheap = Heap.Heap(randGen)
-    n = 10
+    n = 100000
     # printHeapBFS(nheap.head, 4)
     ans = selectN(nheap, n)
     print("Our answer:", ans)

@@ -70,7 +70,11 @@ class Heap():
         global generationStrategy
         generationStrategy = strategy
         self.head = Node(*generationStrategy(None, 0))
-             
+
+        self.terminal_val = 0
+        self.terminal_node = None
+        
+        
 # Tests:
 # def printHeapBFS(head, depth):
 #     frontier = [head]
