@@ -8,7 +8,7 @@ from NodeValGenerator import *
 from BestFirst import best_first
 
 # exact implementation of extend
-def extend(TreeHead: Heap.Node, n, k , L_0):
+def extend(T: Heap.Heap , TreeHead: Heap.Node, n, k , L_0):
 	L = L_0
 	U = math.inf
 	while k < n:
@@ -18,11 +18,11 @@ def extend(TreeHead: Heap.Node, n, k , L_0):
 		c = dfs(r, L_alt, n)
 		c_alt = min(n-k_alt+c, 2*c)
 		while k_alt < n:
-			L_alt = extend(r, c_alt, c, L_alt)
+			L_alt = extend(T, r, c_alt, c, L_alt)
 			k_alt = dfs(TreeHead, L_alt, n)
 			c = c_alt
 			c_alt = min(n-k_alt+c, 2*c)
-		L_hat, U_hat = goodValues(TreeHead, r, L_alt, n)
+		L_hat, U_hat = goodValues(T, TreeHead, r, L_alt, n)
 		L = max(L, L_hat)
 		U = min(U, U_hat)
 		k = dfs(TreeHead, L, n)
@@ -39,14 +39,14 @@ def selectN(T: Heap.Heap, n: int):
 			alt_k = 2 * k
 		else: 
 			alt_k = n
-		L = extend(curr, alt_k, k, L)
+		L = extend(T, curr, alt_k, k, L)
 		k = alt_k
 	return L
 
 
 if __name__ == "__main__":
     nheap = Heap.Heap(randGen)
-    n = 100000
+    n = 100
     # printHeapBFS(nheap.head, 4)
     ans = selectN(nheap, n)
     print("Our answer:", ans)

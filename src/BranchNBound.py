@@ -31,7 +31,8 @@ if __name__ == "__main__":
     lim = 1 # we double this until we reach a terminal node
     nheap = Heap.Heap(knapsack)
     while True:
-        node = best_first(nheap, lim)
+        # node = best_first(nheap, lim)
+        _ = selectN(nheap, lim)
         # print(node, node.terminal)
         # print(node.restrictions)
         if nheap.terminal_node:
