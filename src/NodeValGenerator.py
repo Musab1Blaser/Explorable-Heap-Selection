@@ -25,7 +25,7 @@ def knapsack(node, off): # Heap contains value as per Linear Programming with re
         if len(restrictions) < lims[data_option]: # add restrictions to children
             restrictions += [off]
         else:
-            return random.random(), restrictions, False # so that I no longer consider this subtree
+            return 1, restrictions, False # so that I no longer consider this subtree
         
     val, term = linprobknap(restrictions, problem=data_option)
     return val, restrictions, term

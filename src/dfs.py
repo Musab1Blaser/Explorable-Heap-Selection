@@ -12,6 +12,9 @@ def dfsHelper(root: Heap.Node, L:float, n, count = 0, T:Heap.Heap = None, recolo
 	if curr.val > L:
 		curr.changeColor("black")
 		return 0
+	elif curr.val == L and count > n and lCount > 0:
+		curr.changeColor("black")
+		return 0
 	else:
 		curr.changeColor()
   

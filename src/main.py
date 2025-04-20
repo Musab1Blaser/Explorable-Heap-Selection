@@ -51,11 +51,11 @@ def selectN(T: Heap.Heap, n: int):
 if __name__ == "__main__":
     visualise = False
     nheap = Heap.Heap(randGen, visualise=visualise)
-    n = 10
+    n = 1000
     # printHeapBFS(nheap.head, 4)
     ans = selectN(nheap, n)
     if visualise:
         nheap.save_animation()
     print("Our answer:", ans)
     print("Expected answer:", best_first(nheap, n))
-    Heap.drawHeap(nheap.head, 5)
+    # Heap.drawHeap(nheap.head, 5)
