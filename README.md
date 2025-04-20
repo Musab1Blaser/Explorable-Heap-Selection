@@ -40,6 +40,21 @@ Other uses:
 
 - Run the branch and bound optimization on a different knapsack problem by changing `data_option = "Small"` in the file `src/BranchNBound.py`
 
+## How to test
+
+1. Go into src/ folder
+2. To carry out runtime analysis, write the following in the terminal:
+
+```bash
+python3 RuntimeAnalysis.py
+```
+
+3. To carry out correctness analysis, write the following in the terminal:
+
+```bash
+python3 CorrectnessAnalysis.py
+```
+
 ## Implementation Details
 
 1. Heap Structure: Implemented as an infinite heap where nodes are generated on access, enforcing parent-first access. Three heap types are supported:
