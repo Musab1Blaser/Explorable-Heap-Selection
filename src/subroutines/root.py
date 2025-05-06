@@ -28,6 +28,8 @@ def rootPicker(root : Heap.Node, L_0, L, U):
 					r.changeColor("lightblue")
 				root.changeColor("cyan")
 				r = root
+			else:
+				root.changeColor("lightblue")
 
 def roots(root: Heap.Node, L_0: float, L: float, U: float):
 	"""

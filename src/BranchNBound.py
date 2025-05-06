@@ -30,6 +30,7 @@ def find_best(head, lim): # explore up till the limit to find the highest value 
         
 if __name__ == "__main__":
     data_option = "Medium" # "Small" or "Medium"
+    print("Problem instance:", data_option)
     nheap = Heap.Heap(knapsack_selector(data_option))
     
     lim = 1 # we double this until we reach a terminal node

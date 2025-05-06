@@ -53,7 +53,7 @@ if __name__ == "__main__":
     n = 8 # specify n -> which value of heap to find
     print(f"Searching for the {n}-th smallest value")
     
-    nheap = Heap.Heap(firstN, visualise=visualise) # first parameter is heap type: firstN, randGen
+    nheap = Heap.Heap(randGen, visualise=visualise) # first parameter is heap type: firstN, randGen
     
     ans = selectN(nheap, n) # run algorithm
     if visualise:
